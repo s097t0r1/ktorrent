@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm")
+    kotlin("plugin.serialization")
 }
 
 group = "me.s097t0r1"
@@ -11,4 +12,5 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC")
 }

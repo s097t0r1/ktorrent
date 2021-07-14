@@ -1,6 +1,7 @@
 package elements
 
 import Bencoder
+import kotlinx.serialization.ExperimentalSerializationApi
 import java.text.ParseException
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -9,10 +10,11 @@ import java.util.concurrent.atomic.AtomicInteger
  * The initial i and trailing e are beginning and ending delimiters.
  * Example: i3e represents the integer "3"
  */
-data class BInteger(val value: Int) : BElement() {
+data class BInteger(override val value: Int) : BElement(value) {
 
     override fun toString(): String = value.toString()
 
+    @ExperimentalSerializationApi
     companion object {
         fun decode(bencode: String, pointer: AtomicInteger): BInteger {
             pointer.set(pointer.get() + 1)

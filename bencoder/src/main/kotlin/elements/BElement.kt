@@ -1,3 +1,3 @@
 package elements
 
-sealed class BElement
+sealed class BElement(open val value: Any)

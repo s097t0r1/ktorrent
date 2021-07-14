@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger
  * Byte strings are encoded as follows: <string length encoded in base ten ASCII>:<string data>
  * Example: 8:announce
  */
-data class BString(val value: String) : BElement() {
+data class BString(override val value: String) : BElement(value) {
 
     override fun toString(): String = value
 

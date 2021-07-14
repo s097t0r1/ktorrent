@@ -1,12 +1,14 @@
 package elements
 
 import Bencoder
+import kotlinx.serialization.ExperimentalSerializationApi
 import java.util.concurrent.atomic.AtomicInteger
 
-class BDictionary(val value: Map<BString, BElement>) : BElement() {
+class BDictionary(override val value: Map<BString, BElement>) : BElement(value) {
 
     override fun toString(): String = value.toString()
 
+    @ExperimentalSerializationApi
     companion object {
         fun decode(bencode: String, pointer: AtomicInteger): BDictionary {
             val resultMap = mutableMapOf<BString, BElement>()

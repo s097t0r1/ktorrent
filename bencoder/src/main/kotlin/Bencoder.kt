@@ -1,21 +1,33 @@
+import decoders.BDictionaryDecoder
 import elements.*
+import kotlinx.serialization.DeserializationStrategy
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.serializer
 import java.io.File
 import java.text.ParseException
 import java.util.concurrent.atomic.AtomicInteger
 
+@ExperimentalSerializationApi
 object Bencoder {
-    fun decode(pathToFile: String): BElement {
+
+    inline fun <reified T> decodeFrom(pathToFile: String): T = decodeFrom(pathToFile, serializer())
+
+    fun <T> decodeFrom(pathToFile: String, deserializer: DeserializationStrategy<T>): T {
+        val decoder = BDictionaryDecoder(decode(pathToFile) as BDictionary)
+        return decoder.decodeSerializableValue(deserializer)
+    }
+
+    private fun decode(pathToFile: String): BElement {
         val pointer = AtomicInteger()
         val bencode = File(pathToFile)
             .inputStream()
             .readBytes()
             .toString(Charsets.US_ASCII)
 
-
         return decode(bencode, pointer)
     }
 
-    fun decode(bencode: String, pointer: AtomicInteger): BElement {
+    internal fun decode(bencode: String, pointer: AtomicInteger): BElement {
         return when (bencode[pointer.get()]) {
             in '1'..'9' -> BString.decode(bencode, pointer)
             INTEGER_IDENTIFIER -> BInteger.decode(bencode, pointer)
@@ -25,8 +37,9 @@ object Bencoder {
         }
     }
 
-    const val INTEGER_IDENTIFIER = 'i'
-    const val LIST_IDENTIFIER = 'l'
-    const val DICTIONARY_IDENTIFIER = 'd'
-    const val END_IDENTIFIER = 'e'
+    private const val INTEGER_IDENTIFIER = 'i'
+    private const val LIST_IDENTIFIER = 'l'
+    private const val DICTIONARY_IDENTIFIER = 'd'
+
+    internal const val END_IDENTIFIER = 'e'
 }

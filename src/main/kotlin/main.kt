@@ -1,3 +1,9 @@
+import kotlinx.serialization.ExperimentalSerializationApi
+import metainfo.TorrentMetaInfo
+
+@ExperimentalSerializationApi
 fun main(args: Array<String>) {
-    print(Bencoder.decode(args[0]))
+    val torrentMetaInfo = Bencoder.decodeFrom<TorrentMetaInfo>(args[0])
+    print(torrentMetaInfo)
 }
+

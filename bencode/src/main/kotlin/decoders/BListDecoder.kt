@@ -27,6 +27,6 @@ class BListDecoder(bList: BList) : BAbstractDecoder() {
         when (currentValue) {
             is BDictionary -> BDictionaryDecoder(currentValue as BDictionary)
             is BList -> BListDecoder(currentValue as BList)
-            else -> throw IllegalStateException("Illegal BElement")
+            else -> throw IllegalArgumentException("Illegal BElement")
         }
 }

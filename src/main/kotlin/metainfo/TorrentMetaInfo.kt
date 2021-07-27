@@ -7,10 +7,11 @@ import kotlinx.serialization.Serializable
 class TorrentMetaInfo(
 
     @SerialName("announce")
-    val announce: String,
+    val announce: String = "",
 
     @SerialName("info")
-    val info: Info
+    val info: Info,
+
 )
 
 @Serializable
@@ -20,5 +21,29 @@ class Info(
     val pieceLength: Int,
 
     @SerialName("pieces")
-    val pieces: ByteArray
+    val pieces: ByteArray,
+
+    @SerialName("name")
+    val name: String,
+
+    @SerialName("length")
+    val length: Int? = null,
+
+    @SerialName("files")
+    val files: List<File>? = null
+
+)
+
+@Serializable
+class File(
+
+    @SerialName("length")
+    val length: Int,
+
+    @SerialName("md5sum")
+    val md5sum: String? = null,
+
+    @SerialName("path")
+    val path: String
+
 )

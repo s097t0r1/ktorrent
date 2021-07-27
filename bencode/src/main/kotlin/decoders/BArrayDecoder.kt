@@ -24,5 +24,5 @@ class BArrayDecoder(bString: BString) : BAbstractDecoder() {
     }
 
     override fun beginStructure(descriptor: SerialDescriptor): CompositeDecoder =
-        throw IllegalStateException("Expected byte")
+        throw IllegalArgumentException("Illegal element in array of bytes")
 }

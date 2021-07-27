@@ -1,6 +1,8 @@
 package elements
 
 import Bencoder
+import END_IDENTIFIER
+import INTEGER_IDENTIFIER
 import kotlinx.serialization.ExperimentalSerializationApi
 import java.text.ParseException
 import java.util.concurrent.atomic.AtomicInteger
@@ -16,9 +18,10 @@ data class BInteger(override val value: Int) : BElement(value) {
 
     @ExperimentalSerializationApi
     companion object {
+
         fun decode(bencode: String, pointer: AtomicInteger): BInteger {
             pointer.set(pointer.get() + 1)
-            val indexOfEnd = bencode.indexOf(Bencoder.END_IDENTIFIER, pointer.get())
+            val indexOfEnd = bencode.indexOf(END_IDENTIFIER, pointer.get())
             if (indexOfEnd < pointer.get()) {
                 throw ParseException("End identifier not found", pointer.get())
             }
@@ -26,5 +29,12 @@ data class BInteger(override val value: Int) : BElement(value) {
             pointer.set(indexOfEnd + 1)
             return BInteger(value)
         }
+
+        fun encode(bInteger: BInteger) = buildString {
+            append(INTEGER_IDENTIFIER)
+            append(bInteger.value)
+            append(END_IDENTIFIER)
+        }
     }
+
 }

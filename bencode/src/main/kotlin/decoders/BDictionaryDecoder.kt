@@ -38,6 +38,6 @@ class BDictionaryDecoder(
             else -> throw IllegalArgumentException("Illegal BElement")
         }
 
-}
+    private fun Int.isUnknownName() = this == CompositeDecoder.UNKNOWN_NAME
 
-fun Int.isUnknownName() = this == CompositeDecoder.UNKNOWN_NAME
+}

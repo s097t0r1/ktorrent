@@ -7,11 +7,10 @@ import java.util.concurrent.atomic.AtomicInteger
  * Byte strings are encoded as follows: <string length encoded in base ten ASCII>:<string data>
  * Example: 8:announce
  */
-data class BString(override val value: String) : BElement(value) {
-
-    override fun toString(): String = value
+data class BString(override val value: String) : BElement(value), CharSequence by value {
 
     companion object {
+
         fun decode(bencode: String, pointer: AtomicInteger): BString {
             val lengthOfString = length(bencode, pointer)
             val startIndex = pointer.get()
@@ -20,6 +19,12 @@ data class BString(override val value: String) : BElement(value) {
 
             val value = bencode.substring(startIndex, startIndex + lengthOfString)
             return BString(value)
+        }
+
+        fun encode(bString: BString) = buildString {
+            append(bString.length)
+            append(':')
+            append(bString)
         }
 
         private fun length(bencode: String, pointer: AtomicInteger): Int {

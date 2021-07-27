@@ -1,2 +1,2 @@
 rootProject.name = "ktorrent"
-include("bencoder")
+include("bencode")
